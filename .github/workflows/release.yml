@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & Release Universal Binary
+    runs-on: macos-26
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Build Universal Binary
+        run: make build
+
+      - name: Verify Universal Binary (arm64 + x86_64)
+        run: make verify-universal
+
+      - name: Create distribution
+        run: make dist-app
+
+      - name: Create DMG
+        run: make dmg
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/Kutuk-Release.dmg
+          generate_release_notes: true
+          draft: false
+          prerelease: false

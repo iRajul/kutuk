@@ -34,18 +34,18 @@ struct SoundPack: Identifiable, Hashable {
     }
     
     /// Get sound file URLs for a specific key type and event
-    /// Files are expected to be named: {packId}_{keyType}_{event}_{variation}.mp3
-    /// e.g., cherry-mx-blue_regular_press_1.mp3
+    /// Files are expected to be named: {packId}_{keyType}_{event}_{variation}.{ext}
+    /// e.g., cherry-mx-blue_regular_press_1.wav
     func soundURLs(for keyType: KeyType, event: KeyEvent) -> [URL] {
         let eventSuffix = event == .press ? "press" : "release"
         let prefix = "\(id)_\(keyType.rawValue)_\(eventSuffix)"
         
         var urls: [URL] = []
         
-        // Supported audio formats (prefer MP3, fallback to WAV)
-        let extensions = ["mp3", "wav", "caf"]
-        
-        // Try numbered variations (cherry-mx-blue_regular_press_1.mp3, etc.)
+        // Prefer the sanitized WAV assets bundled with the public build.
+        let extensions = ["wav", "mp3", "caf"]
+
+        // Try numbered variations (cherry-mx-blue_regular_press_1.wav, etc.)
         for i in 1...5 {
             for ext in extensions {
                 if let url = Bundle.main.url(forResource: "\(prefix)_\(i)", withExtension: ext) {
@@ -55,7 +55,7 @@ struct SoundPack: Identifiable, Hashable {
             }
         }
         
-        // Fall back to single file without number (cherry-mx-blue_space_press.mp3, etc.)
+        // Fall back to single file without number (cherry-mx-blue_space_press.wav, etc.)
         if urls.isEmpty {
             for ext in extensions {
                 if let url = Bundle.main.url(forResource: prefix, withExtension: ext) {
@@ -91,36 +91,12 @@ extension SoundPack {
         description: "Clicky, tactile, loud"
     )
     
-    static let cherryMXBrown = SoundPack(
-        id: "cherry-mx-brown",
-        name: "Cherry MX Brown",
-        description: "Tactile, quieter"
-    )
+    static let defaultPack = cherryMXBlue
     
-    static let cherryMXRed = SoundPack(
-        id: "cherry-mx-red",
-        name: "Cherry MX Red",
-        description: "Linear, smooth, quiet"
-    )
-    
-    static let topre = SoundPack(
-        id: "topre",
-        name: "Topre",
-        description: "Thocky, rubber dome feel"
-    )
-    
-    static let bucklingSpring = SoundPack(
-        id: "buckling-spring",
-        name: "Buckling Spring",
-        description: "Classic IBM Model M"
-    )
-    
-    /// All available sound packs
+    /// All bundled sound packs for the public build.
     static let allPacks: [SoundPack] = [
-        .cherryMXBlue,
-        .cherryMXBrown,
-        .cherryMXRed,
-        .topre,
-        .bucklingSpring
+        .cherryMXBlue
     ]
+    
+    static let visiblePacks = allPacks
 }

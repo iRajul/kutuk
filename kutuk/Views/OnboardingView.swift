@@ -10,6 +10,7 @@ import SwiftUI
 struct OnboardingView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var permissionGranted = false
+    @State private var permissionPollTimer: Timer?
     
     var body: some View {
         VStack(spacing: 24) {
@@ -71,9 +72,14 @@ struct OnboardingView: View {
         .onAppear {
             startPermissionPolling()
         }
+        .onDisappear {
+            permissionPollTimer?.invalidate()
+            permissionPollTimer = nil
+        }
     }
     
     private func openSystemPreferences() {
+        _ = CGRequestListenEventAccess()
         if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent") {
             NSWorkspace.shared.open(url)
         }
@@ -88,12 +94,15 @@ struct OnboardingView: View {
     }
     
     private func startPermissionPolling() {
+        permissionPollTimer?.invalidate()
+        
         // Poll for permission every second
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+        permissionPollTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             let hasPermission = canCreateEventTap()
             print("🔐 Polling permission: \(hasPermission)")
             if hasPermission {
                 timer.invalidate()
+                permissionPollTimer = nil
                 permissionGranted = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     dismiss()
@@ -103,18 +112,8 @@ struct OnboardingView: View {
     }
     
     /// More reliable permission check - try creating an event tap
-    /// AXIsProcessTrusted() can return stale cached values on macOS
     private func canCreateEventTap() -> Bool {
-        let eventMask = (1 << CGEventType.keyDown.rawValue)
-        let testTap = CGEvent.tapCreate(
-            tap: .cgSessionEventTap,
-            place: .headInsertEventTap,
-            options: .listenOnly,
-            eventsOfInterest: CGEventMask(eventMask),
-            callback: { _, _, event, _ in Unmanaged.passUnretained(event) },
-            userInfo: nil
-        )
-        return testTap != nil
+        CGPreflightListenEventAccess()
     }
 }
 

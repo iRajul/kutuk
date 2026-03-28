@@ -24,7 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D084F38D2F140A9F000178B2 /* kutuk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kutuk.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D084F38D2F140A9F000178B2 /* Kutuk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kutuk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D084F39C2F140AA0000178B2 /* kutukTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kutukTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D084F3A62F140AA0000178B2 /* kutukUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kutukUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -85,7 +85,7 @@
 		D084F38E2F140A9F000178B2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D084F38D2F140A9F000178B2 /* kutuk.app */,
+				D084F38D2F140A9F000178B2 /* Kutuk.app */,
 				D084F39C2F140AA0000178B2 /* kutukTests.xctest */,
 				D084F3A62F140AA0000178B2 /* kutukUITests.xctest */,
 			);
@@ -113,8 +113,8 @@
 			name = kutuk;
 			packageProductDependencies = (
 			);
-			productName = kutuk;
-			productReference = D084F38D2F140A9F000178B2 /* kutuk.app */;
+			productName = Kutuk;
+			productReference = D084F38D2F140A9F000178B2 /* Kutuk.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D084F39B2F140AA0000178B2 /* kutukTests */ = {
@@ -323,7 +323,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.7;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -381,7 +381,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.7;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -398,7 +398,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9Y7VECW4AU;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
@@ -409,8 +409,9 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.myorganization.kutuk;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.irajul.kutuk;
+				PRODUCT_MODULE_NAME = kutuk;
+				PRODUCT_NAME = Kutuk;
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -430,7 +431,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9Y7VECW4AU;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
@@ -441,8 +442,9 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.myorganization.kutuk;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.irajul.kutuk;
+				PRODUCT_MODULE_NAME = kutuk;
+				PRODUCT_NAME = Kutuk;
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -461,16 +463,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9Y7VECW4AU;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.7;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.myorganization.kutukTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.irajul.kutukTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/kutuk.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/kutuk";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kutuk.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Kutuk";
 			};
 			name = Debug;
 		};
@@ -482,16 +484,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9Y7VECW4AU;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.7;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.myorganization.kutukTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.irajul.kutukTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/kutuk.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/kutuk";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kutuk.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Kutuk";
 			};
 			name = Release;
 		};
@@ -503,7 +505,7 @@
 				DEVELOPMENT_TEAM = 9Y7VECW4AU;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.myorganization.kutukUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.irajul.kutukUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -522,7 +524,7 @@
 				DEVELOPMENT_TEAM = 9Y7VECW4AU;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.myorganization.kutukUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.irajul.kutukUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;

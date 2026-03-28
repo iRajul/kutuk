@@ -26,7 +26,7 @@ kutuk/
 ├── Info.plist                  # LSUIElement=true (no dock icon)
 ├── kutuk.entitlements          # App sandbox
 ├── Models/
-│   └── SoundPack.swift         # KeyType, KeyEvent, SoundPack struct
+│   └── SoundPack.swift         # KeyType, KeyEvent, single-pack SoundPack struct
 ├── Services/
 │   ├── SoundEngine.swift       # AVAudioEngine, polyphony pool
 │   ├── KeyboardMonitor.swift   # CGEvent tap, key classification
@@ -37,7 +37,7 @@ kutuk/
 │   ├── MenuBarView.swift       # Main dropdown UI
 │   └── OnboardingView.swift    # Permission request
 └── Resources/
-    └── Sounds/                 # 81 MP3 files
+    └── Sounds/                 # 16 Cherry MX Blue WAV files
 ```
 
 ---
@@ -74,11 +74,11 @@ kutuk/
 ```
 
 Examples:
-- `cherry-mx-blue_regular_press_1.mp3`
-- `topre_space_release.mp3`
-- `buckling-spring_enter_press.mp3`
+- `cherry-mx-blue_regular_press_1.wav`
+- `cherry-mx-blue_space_release.wav`
+- `cherry-mx-blue_modifier_press.wav`
 
-Packs: `cherry-mx-blue`, `cherry-mx-brown`, `cherry-mx-red`, `topre`, `buckling-spring`
+Pack: `cherry-mx-blue`
 
 Key types: `regular`, `space`, `enter`, `backspace`, `modifier`
 

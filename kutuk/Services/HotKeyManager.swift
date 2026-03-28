@@ -16,18 +16,17 @@ class HotKeyManager {
     
     private var hotKeyRef: EventHotKeyRef?
     private var eventHandler: EventHandlerRef?
+    private var currentShortcut: HotKeyShortcut
     
     /// Callback when hotkey is pressed
     var onHotKeyPressed: (() -> Void)?
     
-    /// Default hotkey: Option + Command + K
-    private let defaultKeyCode: UInt32 = UInt32(kVK_ANSI_K)
-    private let defaultModifiers: UInt32 = UInt32(optionKey | cmdKey)
-    
     // MARK: - Initialization
     
-    init() {
-        registerHotKey()
+    init(shortcut: HotKeyShortcut = .defaultShortcut) {
+        self.currentShortcut = shortcut
+        installEventHandlerIfNeeded()
+        registerHotKey(shortcut)
     }
     
     deinit {
@@ -36,8 +35,9 @@ class HotKeyManager {
     
     // MARK: - Registration
     
-    private func registerHotKey() {
-        // Create event type spec for hotkey events
+    private func installEventHandlerIfNeeded() {
+        guard eventHandler == nil else { return }
+        
         var eventType = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
         
         // Install event handler
@@ -64,28 +64,44 @@ class HotKeyManager {
             &eventHandler
         )
         
-        // Register the hotkey
-        var hotKeyID = EventHotKeyID(signature: OSType(0x4B555455), id: 1)  // "KUTU" signature
+    }
+    
+    private func registerHotKey(_ shortcut: HotKeyShortcut) {
+        unregisterRegisteredHotKey()
+        
+        let hotKeyID = EventHotKeyID(signature: OSType(0x4B555455), id: 1)  // "KUTU" signature
         
         RegisterEventHotKey(
-            defaultKeyCode,
-            defaultModifiers,
+            shortcut.keyCode,
+            shortcut.carbonModifiers,
             hotKeyID,
             GetApplicationEventTarget(),
             0,
             &hotKeyRef
         )
         
-        print("Registered hotkey: ⌥⌘K")
+        print("Registered hotkey: \(shortcut.displayString)")
+    }
+    
+    func updateHotKey(_ shortcut: HotKeyShortcut) {
+        guard shortcut != currentShortcut else { return }
+        
+        currentShortcut = shortcut
+        registerHotKey(shortcut)
     }
     
     private func unregisterHotKey() {
-        if let hotKeyRef = hotKeyRef {
-            UnregisterEventHotKey(hotKeyRef)
-        }
+        unregisterRegisteredHotKey()
         
         if let eventHandler = eventHandler {
             RemoveEventHandler(eventHandler)
+        }
+    }
+    
+    private func unregisterRegisteredHotKey() {
+        if let hotKeyRef = hotKeyRef {
+            UnregisterEventHotKey(hotKeyRef)
+            self.hotKeyRef = nil
         }
     }
 }
