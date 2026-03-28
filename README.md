@@ -2,6 +2,10 @@
 
 Mechanical keyboard sounds for your Mac. Kutuk plays satisfying Cherry MX Blue click sounds as you type, running quietly in your menu bar.
 
+<p align="center">
+  <img src=".github/assets/kutuk-hero-image.jpg" alt="Kutuk hero image showing the macOS menu bar app" width="100%">
+</p>
+
 ![macOS](https://img.shields.io/badge/macOS-14.0%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Build](https://img.shields.io/github/actions/workflow/status/irajul/kutuk/build.yml?branch=main)
