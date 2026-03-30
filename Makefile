@@ -20,7 +20,7 @@ XCODEBUILD_FLAGS ?= \
 	ONLY_ACTIVE_ARCH=NO \
 	ARCHS="arm64 x86_64"
 
-.PHONY: build dist-app dmg clean verify-app verify-universal
+.PHONY: build dist-app dmg clean verify-app verify-universal bump-version bump-build
 
 build:
 	xcodebuild \
@@ -67,3 +67,10 @@ dmg: dist-app
 
 clean:
 	rm -rf "$(CURDIR)/build" "$(DIST_DIR)"
+
+bump-version:
+	@test -n "$(VERSION)" || (echo "Usage: make bump-version VERSION=1.0.2" && exit 1)
+	./scripts/bump_version.sh "$(VERSION)" "$(BUILD)"
+
+bump-build:
+	./scripts/bump_build.sh

@@ -47,6 +47,30 @@ make dmg          # Create DMG installer
 
 Requires Xcode 16+ and macOS 14+.
 
+### Versioning
+
+Kutuk uses a checked-in versioning script so local releases and CI builds stay in sync.
+
+To update the app version and automatically increment the local build number by 1:
+
+```bash
+make bump-version VERSION=1.0.2
+```
+
+To increment only the build number:
+
+```bash
+make bump-build
+```
+
+If needed, you can also set an explicit build number while changing the app version:
+
+```bash
+make bump-version VERSION=1.0.2 BUILD=5
+```
+
+Release builds set the final build number from GitHub Actions, so shipped artifacts always get a monotonically increasing CI build number.
+
 ## Usage
 
 Once running, Kutuk appears as a small icon in your menu bar. Click it to:

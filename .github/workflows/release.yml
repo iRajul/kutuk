@@ -19,6 +19,11 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
+      - name: Sync release version and build number
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          ./scripts/bump_version.sh "$VERSION" "$GITHUB_RUN_NUMBER"
+
       - name: Build Universal Binary
         run: make build
 
