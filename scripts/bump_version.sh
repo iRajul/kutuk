@@ -8,6 +8,17 @@ cd "$REPO_ROOT"
 PROJECT_FILE="kutuk.xcodeproj/project.pbxproj"
 PLIST_FILES="kutuk/Info.plist kutukTests/Info.plist kutukUITests/Info.plist"
 
+read_build_setting() {
+  setting_name="$1"
+  sed -n "s/^[[:space:]]*${setting_name} = \\(.*\\);/\\1/p" "$PROJECT_FILE" | head -n1
+}
+
+read_plist_value() {
+  plist_file="$1"
+  plist_key="$2"
+  /usr/libexec/PlistBuddy -c "Print :$plist_key" "$plist_file"
+}
+
 if [ "${1:-}" = "" ]; then
   echo "Usage: $0 <marketing-version> [build-number]" >&2
   exit 1
@@ -23,8 +34,8 @@ case "$NEW_VERSION" in
     ;;
 esac
 
-CURRENT_VERSION="$(rg -o 'MARKETING_VERSION = [^;]+' "$PROJECT_FILE" | head -n1 | sed 's/MARKETING_VERSION = //')"
-CURRENT_BUILD="$(rg -o 'CURRENT_PROJECT_VERSION = [^;]+' "$PROJECT_FILE" | head -n1 | sed 's/CURRENT_PROJECT_VERSION = //')"
+CURRENT_VERSION="$(read_build_setting MARKETING_VERSION)"
+CURRENT_BUILD="$(read_build_setting CURRENT_PROJECT_VERSION)"
 
 case "$CURRENT_BUILD" in
   '' | *[!0-9]*)
@@ -60,8 +71,13 @@ export CURRENT_VERSION CURRENT_BUILD NEW_VERSION NEXT_BUILD
 perl -0pi -e 's/MARKETING_VERSION = \Q$ENV{CURRENT_VERSION}\E;/MARKETING_VERSION = $ENV{NEW_VERSION};/g; s/CURRENT_PROJECT_VERSION = \Q$ENV{CURRENT_BUILD}\E;/CURRENT_PROJECT_VERSION = $ENV{NEXT_BUILD};/g' "$PROJECT_FILE"
 
 for plist in $PLIST_FILES; do
-  /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $NEW_VERSION" "$plist"
-  /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $NEXT_BUILD" "$plist"
+  if [ "$(read_plist_value "$plist" CFBundleShortVersionString)" != "$NEW_VERSION" ]; then
+    /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $NEW_VERSION" "$plist"
+  fi
+
+  if [ "$(read_plist_value "$plist" CFBundleVersion)" != "$NEXT_BUILD" ]; then
+    /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $NEXT_BUILD" "$plist"
+  fi
 done
 
 echo "Updated marketing version: $CURRENT_VERSION -> $NEW_VERSION"
