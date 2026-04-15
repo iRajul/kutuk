@@ -413,7 +413,6 @@ input {
   color: var(--accent);
   font-family: "JetBrains Mono", monospace;
   font-size: 0.68rem;
-  text-transform: uppercase;
 }
 
 .fact-value {
