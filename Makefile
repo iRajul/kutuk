@@ -13,6 +13,7 @@ DMG_VOLUME_NAME ?= Kutuk
 DMG_NAME ?= Kutuk-$(CONFIGURATION).dmg
 DMG_PATH := $(DIST_DIR)/$(DMG_NAME)
 BUNDLE_IDENTIFIER ?= io.github.irajul.kutuk
+PREVIEW_PORT ?= 8000
 
 # Build flags: Universal Binary (Intel + Apple Silicon), no code signing for CI
 XCODEBUILD_FLAGS ?= \
@@ -20,7 +21,7 @@ XCODEBUILD_FLAGS ?= \
 	ONLY_ACTIVE_ARCH=NO \
 	ARCHS="arm64 x86_64"
 
-.PHONY: build dist-app dmg clean verify-app verify-universal bump-version bump-build
+.PHONY: build dist-app dmg clean verify-app verify-universal bump-version bump-build preview-site
 
 build:
 	xcodebuild \
@@ -74,3 +75,7 @@ bump-version:
 
 bump-build:
 	./scripts/bump_build.sh
+
+preview-site:
+	@test -d "$(CURDIR)/docs" || (echo "docs/ not found" && exit 1)
+	python3 -m http.server "$(PREVIEW_PORT)" --directory "$(CURDIR)/docs"
