@@ -131,7 +131,7 @@ if (heroTitle && typeTarget && typeCursor) {
         const character = phrase[i - 1];
         typeTarget.textContent = phrase.slice(0, i);
         playKeySound(character);
-        await wait(character === " " ? 54 : 62);
+        await wait(character === " " ? 84 : 96);
       }
 
       typeCursor.classList.remove("is-typing");
@@ -143,7 +143,7 @@ if (heroTitle && typeTarget && typeCursor) {
           return;
         }
         typeTarget.textContent = phrase.slice(0, i);
-        await wait(38);
+        await wait(46);
       }
 
       typeCursor.classList.remove("is-typing");
