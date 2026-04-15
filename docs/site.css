@@ -222,17 +222,20 @@ input {
 }
 
 .type-live {
-  align-items: baseline;
-  display: inline-flex;
+  display: block;
   inset: 0;
-  justify-content: center;
   position: absolute;
+  text-align: center;
   width: 100%;
 }
 
 .type-target {
-  display: inline-block;
-  white-space: pre-wrap;
+  display: inline;
+  white-space: normal;
+}
+
+.type-text {
+  white-space: normal;
 }
 
 .type-cursor {
@@ -409,24 +412,24 @@ input {
 .fact-kicker {
   color: var(--accent);
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.76rem;
+  font-size: 0.68rem;
   text-transform: uppercase;
 }
 
 .fact-value {
   color: var(--text-primary);
-  font-size: clamp(1.55rem, 2.8vw, 2.2rem);
+  font-size: clamp(1.18rem, 2vw, 1.68rem);
   font-weight: 400;
   letter-spacing: 0;
   line-height: 1.05;
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
 .fact-copy {
   color: var(--text-secondary);
-  font-size: 0.97rem;
+  font-size: 0.88rem;
   line-height: 1.6;
-  margin-top: 14px;
+  margin-top: 12px;
   max-width: 30ch;
 }
 
@@ -831,7 +834,7 @@ input {
 
   .fact-card {
     min-height: auto;
-    padding: 22px 20px;
+    padding: 20px 18px;
   }
 
   .hero-actions {
@@ -862,6 +865,19 @@ input {
 
   .hero-subtitle {
     margin-top: 18px;
+  }
+
+  .fact-kicker {
+    font-size: 0.62rem;
+  }
+
+  .fact-value {
+    font-size: 1.08rem;
+  }
+
+  .fact-copy {
+    font-size: 0.82rem;
+    line-height: 1.52;
   }
 
   .cli-install {

@@ -2,6 +2,7 @@ document.documentElement.classList.remove("no-js");
 
 const copyButton = document.getElementById("copyCommandButton");
 const installCommand = document.getElementById("installCommand");
+const heroTitle = document.querySelector(".hero-title");
 const typeTarget = document.getElementById("typeTarget");
 const typeCursor = document.getElementById("typeCursor");
 const typeSound = document.getElementById("typeSound");
@@ -17,8 +18,8 @@ if (copyButton && installCommand) {
   });
 }
 
-if (typeTarget && typeCursor) {
-  const phrase = typeTarget.textContent.trim();
+if (heroTitle && typeTarget && typeCursor) {
+  const phrase = (heroTitle.dataset.text || typeTarget.textContent).trim();
   let audioUnlocked = false;
   let audioContext = null;
   let audioBuffer = null;
@@ -90,7 +91,7 @@ if (typeTarget && typeCursor) {
           loopToken += 1;
           typeTarget.textContent = "";
           typeCursor.classList.remove("is-typing");
-          runTypeLoop(loopToken);
+          runTypeLoop(loopToken, 40);
         } catch (error) {
           audioUnlocked = false;
         }
@@ -117,8 +118,8 @@ if (typeTarget && typeCursor) {
     source.start(0);
   };
 
-  const runTypeLoop = async (token) => {
-    await wait(320);
+  const runTypeLoop = async (token, initialDelay = 140) => {
+    await wait(initialDelay);
 
     while (token === loopToken) {
       typeCursor.classList.add("is-typing");
@@ -130,7 +131,7 @@ if (typeTarget && typeCursor) {
         const character = phrase[i - 1];
         typeTarget.textContent = phrase.slice(0, i);
         playKeySound(character);
-        await wait(character === " " ? 84 : 92);
+        await wait(character === " " ? 54 : 62);
       }
 
       typeCursor.classList.remove("is-typing");
@@ -146,7 +147,7 @@ if (typeTarget && typeCursor) {
       }
 
       typeCursor.classList.remove("is-typing");
-      await wait(340);
+      await wait(220);
     }
   };
 
