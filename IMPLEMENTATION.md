@@ -37,7 +37,7 @@ kutuk/
 │   ├── MenuBarView.swift       # Main dropdown UI
 │   └── OnboardingView.swift    # Permission request
 └── Resources/
-    └── Sounds/                 # 16 Cherry MX Blue WAV files
+    └── Sounds/                 # Cherry MX Blue MP3 files
 ```
 
 ---
@@ -74,15 +74,19 @@ kutuk/
 ```
 
 Examples:
-- `cherry-mx-blue_regular_press_1.wav`
-- `cherry-mx-blue_space_release.wav`
-- `cherry-mx-blue_modifier_press.wav`
+- `cherry-mx-blue_regular_press_1.mp3`
+- `cherry-mx-blue_regular_press_5.mp3`
+- `cherry-mx-blue_regular_release.mp3`
 
 Pack: `cherry-mx-blue`
 
 Key types: `regular`, `space`, `enter`, `backspace`, `modifier`
 
 Events: `press`, `release`
+
+The bundled Cherry MX Blue pack uses Mechvibes `mxblue-travel` audio. It ships
+five regular press variations and one regular release sound; special key types
+fall back to the regular press/release sounds through `SoundPack.soundURLs`.
 
 ---
 

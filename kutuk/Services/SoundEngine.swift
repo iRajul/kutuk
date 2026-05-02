@@ -21,6 +21,9 @@ class SoundEngine: ObservableObject {
     /// Pre-loaded audio buffers for instant playback
     private var soundBuffers: [String: [AVAudioPCMBuffer]] = [:]
     
+    /// The audio format currently used by all player nodes.
+    private var playerOutputFormat: AVAudioFormat?
+    
     /// Current sound pack
     private var currentPack: SoundPack?
     
@@ -54,15 +57,7 @@ class SoundEngine: ObservableObject {
         for _ in 0..<playerPoolSize {
             let playerNode = AVAudioPlayerNode()
             audioEngine.attach(playerNode)
-            audioEngine.connect(playerNode, to: mixerNode, format: nil)
             playerNodes.append(playerNode)
-        }
-        
-        // Start the engine
-        do {
-            try audioEngine.start()
-        } catch {
-            print("Failed to start audio engine: \(error)")
         }
     }
     
@@ -74,6 +69,7 @@ class SoundEngine: ObservableObject {
         
         currentPack = pack
         soundBuffers.removeAll()
+        var playbackFormat: AVAudioFormat?
         
         // Pre-load all sounds for each key type and event
         for keyType in KeyType.allCases {
@@ -84,7 +80,15 @@ class SoundEngine: ObservableObject {
                 var buffers: [AVAudioPCMBuffer] = []
                 for url in urls {
                     if let buffer = loadAudioBuffer(from: url) {
-                        buffers.append(buffer)
+                        if playbackFormat == nil {
+                            playbackFormat = buffer.format
+                        }
+                        
+                        if let playbackFormat, formatsMatch(buffer.format, playbackFormat) {
+                            buffers.append(buffer)
+                        } else if let playbackFormat {
+                            print("🔊 ⚠️ Skipping \(url.lastPathComponent) because its format \(buffer.format) does not match playback format \(playbackFormat)")
+                        }
                     }
                 }
                 
@@ -92,6 +96,11 @@ class SoundEngine: ObservableObject {
                     soundBuffers[key] = buffers
                 }
             }
+        }
+        
+        if let playbackFormat {
+            configurePlayerNodes(for: playbackFormat)
+            startAudioEngineIfNeeded()
         }
         
         print("Loaded sound pack: \(pack.name) with \(soundBuffers.count) sound groups")
@@ -123,6 +132,39 @@ class SoundEngine: ObservableObject {
         "\(keyType.rawValue)_\(event == .press ? "press" : "release")"
     }
     
+    private func configurePlayerNodes(for format: AVAudioFormat) {
+        guard !formatsMatch(playerOutputFormat, format) else { return }
+        
+        audioEngine.stop()
+        
+        for player in playerNodes {
+            player.stop()
+            audioEngine.disconnectNodeOutput(player)
+            audioEngine.connect(player, to: mixerNode, format: format)
+        }
+        
+        playerOutputFormat = format
+    }
+    
+    private func formatsMatch(_ lhs: AVAudioFormat?, _ rhs: AVAudioFormat) -> Bool {
+        guard let lhs else { return false }
+        
+        return lhs.channelCount == rhs.channelCount
+            && lhs.sampleRate == rhs.sampleRate
+            && lhs.commonFormat == rhs.commonFormat
+            && lhs.isInterleaved == rhs.isInterleaved
+    }
+    
+    private func startAudioEngineIfNeeded() {
+        guard !audioEngine.isRunning else { return }
+        
+        do {
+            try audioEngine.start()
+        } catch {
+            print("Failed to start audio engine: \(error)")
+        }
+    }
+    
     // MARK: - Playback
     
     /// Play a sound for the given key type and event
@@ -136,6 +178,8 @@ class SoundEngine: ObservableObject {
             }
             return
         }
+        
+        startAudioEngineIfNeeded()
         
         // Pick a random variation
         let buffer = buffers.randomElement()!

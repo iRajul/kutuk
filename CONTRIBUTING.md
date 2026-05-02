@@ -32,13 +32,13 @@ make clean
   - `Services/` — Keyboard monitoring, audio engine, hotkey management
   - `Settings/` — UserDefaults persistence
   - `Models/` — Data models (sound packs, hotkey shortcuts)
-  - `Resources/Sounds/` — Sound pack WAV files
+  - `Resources/Sounds/` — Sound pack audio files
   - `Assets.xcassets/` — App and menu bar icons
 
 ## Adding a Sound Pack
 
-1. Create a new folder under `kutuk/Resources/Sounds/` with your pack ID
-2. Add WAV files following the naming convention: `{packId}_{keyType}_{event}_{variation}.wav`
+1. Add MP3, WAV, or CAF files under `kutuk/Resources/Sounds/`
+2. Follow the naming convention: `{packId}_{keyType}_{event}_{variation}.{ext}`
 3. Register the pack in `SoundPack.swift`
 
 ## Submitting Changes

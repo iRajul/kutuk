@@ -112,9 +112,14 @@ class SettingsManager: ObservableObject {
         // Load from UserDefaults with defaults
         self.isEnabled = defaults.object(forKey: Keys.isEnabled) as? Bool ?? true
         self.volume = defaults.object(forKey: Keys.volume) as? Double ?? 0.8
-        self.selectedSoundPackId = defaults.string(forKey: Keys.selectedSoundPackId) ?? SoundPack.defaultPack.id
+        let savedSoundPackId = defaults.string(forKey: Keys.selectedSoundPackId)
+        self.selectedSoundPackId = Self.resolvedSoundPackId(savedSoundPackId)
         self.hotKeyKeyCode = defaults.object(forKey: Keys.hotKeyKeyCode) as? Int ?? Int(HotKeyShortcut.defaultShortcut.keyCode)
         self.hotKeyModifierPresetRawValue = defaults.string(forKey: Keys.hotKeyModifierPreset) ?? HotKeyShortcut.defaultShortcut.modifierPreset.rawValue
+        
+        if selectedSoundPackId != savedSoundPackId {
+            defaults.set(selectedSoundPackId, forKey: Keys.selectedSoundPackId)
+        }
         
         // Check current launch at login status
         launchAtLogin = launchAtLoginController.isEnabled
@@ -136,5 +141,17 @@ class SettingsManager: ObservableObject {
         } catch {
             print("Failed to update launch at login: \(error)")
         }
+    }
+    
+    private static func resolvedSoundPackId(_ savedSoundPackId: String?) -> String {
+        guard let savedSoundPackId else {
+            return SoundPack.defaultPack.id
+        }
+        
+        if SoundPack.visiblePacks.contains(where: { $0.id == savedSoundPackId }) {
+            return savedSoundPackId
+        }
+        
+        return SoundPack.defaultPack.id
     }
 }

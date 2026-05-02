@@ -283,7 +283,7 @@ struct MenuBarView: View {
     private var footerSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             Button {
-                if let url = URL(string: "https://github.com/irajul/kutuk") {
+                if let url = URL(string: "https://github.com/iRajul/kutuk") {
                     NSWorkspace.shared.open(url)
                 }
             } label: {

@@ -35,17 +35,17 @@ struct SoundPack: Identifiable, Hashable {
     
     /// Get sound file URLs for a specific key type and event
     /// Files are expected to be named: {packId}_{keyType}_{event}_{variation}.{ext}
-    /// e.g., cherry-mx-blue_regular_press_1.wav
+    /// e.g., cherry-mx-brown_regular_press_1.mp3
     func soundURLs(for keyType: KeyType, event: KeyEvent) -> [URL] {
         let eventSuffix = event == .press ? "press" : "release"
         let prefix = "\(id)_\(keyType.rawValue)_\(eventSuffix)"
         
         var urls: [URL] = []
         
-        // Prefer the sanitized WAV assets bundled with the public build.
+        // Prefer bundled audio assets that are safe for the public build.
         let extensions = ["wav", "mp3", "caf"]
 
-        // Try numbered variations (cherry-mx-blue_regular_press_1.wav, etc.)
+        // Try numbered variations (cherry-mx-brown_regular_press_1.mp3, etc.)
         for i in 1...5 {
             for ext in extensions {
                 if let url = Bundle.main.url(forResource: "\(prefix)_\(i)", withExtension: ext) {
@@ -55,7 +55,7 @@ struct SoundPack: Identifiable, Hashable {
             }
         }
         
-        // Fall back to single file without number (cherry-mx-blue_space_press.wav, etc.)
+        // Fall back to single file without number (cherry-mx-brown_regular_release.mp3, etc.)
         if urls.isEmpty {
             for ext in extensions {
                 if let url = Bundle.main.url(forResource: prefix, withExtension: ext) {
@@ -85,16 +85,23 @@ struct SoundPack: Identifiable, Hashable {
 // MARK: - Pre-bundled Sound Packs
 
 extension SoundPack {
+    static let cherryMXBrown = SoundPack(
+        id: "cherry-mx-brown",
+        name: "Cherry MX Brown",
+        description: "Tactile, warm, full travel"
+    )
+    
     static let cherryMXBlue = SoundPack(
         id: "cherry-mx-blue",
         name: "Cherry MX Blue",
-        description: "Clicky, tactile, loud"
+        description: "Clicky, bright, regular key fallback"
     )
     
-    static let defaultPack = cherryMXBlue
+    static let defaultPack = cherryMXBrown
     
     /// All bundled sound packs for the public build.
     static let allPacks: [SoundPack] = [
+        .cherryMXBrown,
         .cherryMXBlue
     ]
     

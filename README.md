@@ -1,6 +1,6 @@
 # Kutuk
 
-Mechanical keyboard sounds for your Mac. Kutuk plays satisfying Cherry MX Blue click sounds as you type, running quietly in your menu bar.
+Mechanical keyboard sounds for your Mac. Kutuk plays satisfying Cherry MX Brown and Cherry MX Blue sounds as you type, running quietly in your menu bar.
 
 <p align="center">
   <img src=".github/assets/kutuk-hero-image.jpg" alt="Kutuk hero image showing the macOS menu bar app" width="100%">
@@ -12,7 +12,7 @@ Mechanical keyboard sounds for your Mac. Kutuk plays satisfying Cherry MX Blue c
 
 ## Features
 
-- Cherry MX Blue mechanical keyboard sounds with natural variation
+- Cherry MX Brown and Cherry MX Blue mechanical keyboard sounds with natural variation
 - Universal Binary: runs natively on both Apple Silicon and Intel Macs
 - Menu bar app with no dock icon clutter
 - Global hotkey toggle (default: Option+Command+K)
@@ -102,3 +102,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and guidelines.
 ## License
 
 [MIT](LICENSE)
+
+Bundled Cherry MX Brown and Cherry MX Blue audio is derived from the MIT-licensed
+Mechvibes `mxbrown-travel` and `mxblue-travel` sound packs. See
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
